@@ -9,3 +9,6 @@ class Person:
         # the index of the current sprite
         self.frame = 0
         self.name = name
+
+    def update_pos(self, keypressed):
+        self.frame = (self.frame + 1) % 6
