@@ -15,6 +15,10 @@ class Person:
         self.direction = 0
         self.frame = 0
         self.name = name
+        # previously talked to
+        self.prev_talked_to = None
+        # how much longer they have to talk
+        self.talking = 1000
 
     def update_pos(self):
         if self.counter > 0:
@@ -35,3 +39,6 @@ class Person:
             self.counter = random.randint(500, 1500)
             self.direction = random.randint(0, 4)
             changeSpriteImage(self.sprite, 0*6 + self.frame)
+
+    def walk_to_target(self, target):
+        print("yay")

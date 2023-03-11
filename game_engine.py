@@ -33,6 +33,7 @@ class GameEngine:
                     moveSprite(person.sprite, person.x, person.y)
                     self.next_frame += 20
                     person.update_pos()
+                town.initiate_convo()
 
                 if keyPressed("right"):
                     for person in town.people.values():
