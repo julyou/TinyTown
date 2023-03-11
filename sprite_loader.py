@@ -27,3 +27,5 @@ class SpriteLoader:
         """Load a whole strip of images and return as a list"""
         tups = [(rect[0]+rect[2]*x, rect[1], rect[2], rect[3]) for x in range(image_count)]
         return self.images_at(tups, colorkey)
+    
+    
