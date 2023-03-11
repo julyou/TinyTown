@@ -1,11 +1,11 @@
+from pygame_functions import *
+
 class Person:
-    def __init__(self, image, game):
-        self.image = image
-        self.screen = game.screen
-
+    def __init__(self, name, path, num_div):
+        self.sprite = makeSprite(path, num_div)
         self.x, self.y = 0.0, 0.0
-
-    def blitme(self):
-        self.rect = self.image.get_rect()
-        self.rect.topleft = self.x, self.y
-        self.screen.blit(self.image, self.rect)
+        # can be 0="right", 1="up", 2="left", 3="down"
+        self.last_position = 0
+        # the index of the current sprite
+        self.frame = 0
+        self.name = name

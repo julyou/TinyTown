@@ -2,20 +2,14 @@ from sprite_loader import SpriteLoader
 from person import Person
 
 class People:
-    def __init__(self, path, screen):
-        self.people = []
-        self.screen = screen
-        self.load_sprite(path)
+    def __init__(self):
+        self.people = {}
 
-    def load_sprite(self, path):
+    def add_person(self, name, path, num_div):
         """Creates person:
             - load sprite from sprite sheet
             - creates person object
         """
-        adam = SpriteLoader(path)
-    
-        adam_rect = (10, 10, 10, 10)
-        adam_image = adam.image_at(adam_rect)
-        adam = Person(adam_image, self.screen)
-        self.people.append(adam)
+        person = Person(name, path, num_div)
+        self.people[name] = person
     
