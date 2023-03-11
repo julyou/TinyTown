@@ -7,7 +7,7 @@ class GameEngine:
         self.screen = pygame.display.set_mode(size)
         self.clock = pygame.time.Clock()
         self.loop = True
-        self.adam = People('sprites/Adam_16x16.png', self)
+        self.adam = People('sprites/Adam_16x16.png', self.screen)
         pygame.display.set_caption(name)
 
     def run(self):
