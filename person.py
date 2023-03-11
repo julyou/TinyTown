@@ -6,7 +6,7 @@ VELOCITY = 1
 class Person:
     def __init__(self, name, path, num_div, width, height):
         self.sprite = makeSprite(path, num_div)
-        self.x, self.y = random.randint(0, width-30), random.randint(0, height-30)
+        self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
         # can be 0="right", 1="up", 2="left", 3="down"
         self.last_position = 0
         # the index of the current sprite
