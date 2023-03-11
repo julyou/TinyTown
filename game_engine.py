@@ -18,39 +18,42 @@ class GameEngine:
 
     def run(self):
         town = People()
-        town.add_person("adam", "sprites/Adam_run_16x16.png", 24)
+        town.add_person("adam", "sprites/Adam_run_16x16.png", 24, WIDTH, HEIGHT)
+        town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
+        town.add_person("eshana", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
 
         for person in town.people.values():
-            moveSprite(person.sprite, WIDTH * 0.5, HEIGHT * 0.5, True)
+            moveSprite(person.sprite, person.x, person.y, True)
             showSprite(person.sprite)
 
         while self.loop:
             if clock() > self.next_frame:
                 for person in town.people.values():
                     person.frame = (person.frame + 1) % 6
-                    self.next_frame += 60
+                    moveSprite(person.sprite, person.x, person.y)
+                    self.next_frame += 20
+                    person.update_pos()
 
-                    if keyPressed("right"):
+                if keyPressed("right"):
+                    for person in town.people.values():
                         person.x += VELOCITY
                         changeSpriteImage(person.sprite, 0*6 + person.frame)
                         person.last_position = 0
-                        if (person.x >= WIDTH and bkg == 1):
-                            person.x = 0
-                            bkg = 2
-                    elif keyPressed("up"):
+                elif keyPressed("up"):
+                    for person in town.people.values():
                         person.y -= VELOCITY
                         changeSpriteImage(person.sprite, 1*6 + person.frame)
                         person.last_position = 1
-                    elif keyPressed("left"):
+                elif keyPressed("left"):
+                    for person in town.people.values():
                         person.x -= VELOCITY
                         changeSpriteImage(person.sprite, 2*6 + person.frame)
                         person.last_position = 2
-                    elif keyPressed("down"):
+                elif keyPressed("down"):
+                    for person in town.people.values():
                         person.y += VELOCITY
                         changeSpriteImage(person.sprite, 3*6 + person.frame)
                         person.last_position = 3
-                    
-                    moveSprite(person.sprite, person.x, person.y)
             tick(120)
 
         endWait()
