@@ -17,6 +17,7 @@ class GameEngine:
         self.loop = True
         self.messages = self.read_file("conversations.txt")
         setBackgroundImage("graphics/background.png")
+        setWindowTitle(name)
 
         self.width, self.height = width, height
         self.mc_actualx, self.mc_actualy = 0, 0
@@ -70,9 +71,9 @@ class GameEngine:
                     person.frame = (person.frame + 1) % 6
                     moveSprite(person.sprite, person.x, person.y)
                     if person != mc:
-                        person.update_pos()
+                        person.update_pos(self.mask)
                 self.next_frame += 40
-                town.initiate_convo(clock(), self.messages)            
+                town.initiate_convo(clock(), self.messages)
                 if keyPressed("right"):
                     if self.mask.pix[self.mc_actualx + VELOCITY, self.mc_actualy] != (0, 0, 0, 255):                
                         mc.x += VELOCITY
