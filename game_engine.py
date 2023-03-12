@@ -15,6 +15,13 @@ class GameEngine:
         screenSize(width, height)
         self.next_frame = clock()
         self.loop = True
+        self.messages = self.read_file("conversations.txt")
+
+    def read_file(self, path):
+        f = open(path, "r")
+        lines = f.readlines()
+        f.close()
+        return lines
 
     def run(self):
         town = People()
@@ -36,7 +43,7 @@ class GameEngine:
                     moveSprite(person.sprite, person.x, person.y)
                     self.next_frame += 10
                     person.update_pos()
-                town.initiate_convo(clock())
+                town.initiate_convo(clock(), self.messages)
 
                 if keyPressed("right"):
                     for person in town.people.values():

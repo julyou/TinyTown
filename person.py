@@ -70,9 +70,9 @@ class Person:
     # returns empty string when time limit expires
     #   - constructs an event and adds it to target's ltm and stm
     #   - also adds the message into the target's long term memory
-    def talk_to_target(self, target, time):
+    def talk_to_target(self, target, time, messages):
         if not self.talking:
-            message = self.get_message()
+            message = self.get_message(messages)
             self.talking = True
             self.message = message
             self.time_to_talk = random.randint(750, 1500)
@@ -81,7 +81,8 @@ class Person:
             event = Event(time, message, target, self)
             # each event's id is its time of creation
             target.conversations[time] = event
-            target.cache.read()
+            target.cache.read(event, clock())
+            print(message)
             return message
         if self.time_to_talk > 0:
             self.time_to_talk -= 10
@@ -94,7 +95,7 @@ class Person:
 
         if not self.cache.heap or randint < 50:
             index = random.randint(0, len(messages)-1)
-            # 50% chance to generate a new event, or generate if there is nothin
+            # 50% chance to generate a new event, or generate if there is nothing
             # stored in cache
             return messages[index]
         # 50% chance to retrieve an old event from stm
