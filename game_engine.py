@@ -16,12 +16,22 @@ class GameEngine:
         self.next_frame = clock()
         self.loop = True
         self.messages = self.read_file("conversations.txt")
+        setBackgroundImage("graphics/junkyard2.png")
+
+        speech = makeLabel("hi", 40, 0, 0, fontColour='white', font='TTF/dogicabold.ttf', background="clear")
+        showLabel(speech)
+
+        text_box = makeTextBox(WIDTH*0.2, HEIGHT * 0.8, WIDTH * 0.6)
+        textBoxInput(text_box)
+        showTextBox(text_box)
 
     def read_file(self, path):
         f = open(path, "r")
         lines = f.readlines()
         f.close()
         return lines
+
+
 
     def run(self):
         town = People()
@@ -35,6 +45,7 @@ class GameEngine:
             moveSprite(person.sprite, person.x, person.y, True)
             showSprite(person.sprite)
 
+
         while self.loop:
             if clock() > self.next_frame:
                 for person in town.people.values():
@@ -45,24 +56,28 @@ class GameEngine:
                 town.initiate_convo(clock(), self.messages)
 
                 if keyPressed("right"):
+                    scrollBackground(-10, 0)
                     for person in town.people.values():
                         if person.x < WIDTH-20:
                             person.x += VELOCITY
                         changeSpriteImage(person.sprite, 0*6 + person.frame)
                         person.last_position = 0
                 elif keyPressed("up"):
+                    scrollBackground(0, 10)
                     for person in town.people.values():
                         if person.y > 0:
                             person.y -= VELOCITY
                         changeSpriteImage(person.sprite, 1*6 + person.frame)
                         person.last_position = 1
                 elif keyPressed("left"):
+                    scrollBackground(10, 0)
                     for person in town.people.values():
                         if person.x > 0:
                             person.x -= VELOCITY
                         changeSpriteImage(person.sprite, 2*6 + person.frame)
                         person.last_position = 2
                 elif keyPressed("down"):
+                    scrollBackground(0, -10)
                     for person in town.people.values():
                         if person.y < HEIGHT-40:
                             person.y += VELOCITY
