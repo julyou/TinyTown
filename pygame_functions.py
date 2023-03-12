@@ -139,7 +139,7 @@ class newSprite(pygame.sprite.Sprite):
         self.rect.topleft = (0, 0)
         self.mask = pygame.mask.from_surface(self.image)
         self.angle = 0
-        self.scale = 1.8
+        self.scale = 2.5
 
     def addImage(self, filename):
         self.images.append(loadImage(filename))
