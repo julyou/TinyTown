@@ -2,6 +2,12 @@ import math
 import random
 
 class Event:
+    def __lt__(self, other):
+        index = random.randint(0, 1)
+        if index:
+            return self
+        return other
+
     def __init__(self, timestamp, payload, self_parent, other_parent):
         self.timestamp = timestamp
         # score will eventually decay with time

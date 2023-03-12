@@ -124,7 +124,6 @@ class Cache:
             heapq.heapify(self.heap)
             heapq.heappop(self.heap)
             heapq.heappush(self.heap, (event.score, event))
-
         
 
     

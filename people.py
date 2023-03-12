@@ -1,5 +1,4 @@
 from person import Person
-from utils import Cache
 import random
 
 class People:
@@ -8,8 +7,6 @@ class People:
         self.num_talking = 0
         self.available_to_talk = []
         self.counter = 0
-
-        self.memory = []
 
     def add_person(self, name, path, num_div, width, height):
         """Creates person:
@@ -41,4 +38,9 @@ class People:
             for person in self.people.values():
                 if not person.talking and person not in self.available_to_talk:
                     self.available_to_talk.append(person)
+                if person.talking:
+                    if person.ttl > 0:
+                        person.ttl -= 100
+                    else:
+                        person.talking = False
         self.counter -= 10

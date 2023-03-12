@@ -78,6 +78,7 @@ class Person:
         if not self.talking:
             message = self.get_message(messages)
             self.talking = True
+            target.talking = True
             self.message = message
             self.ttl = random.randint(750, 1500)
 
@@ -87,12 +88,8 @@ class Person:
             target.conversations[time] = event
             target.cache.read(event, clock())
             print(message)
+            print(target.conversations)
             return message
-        if self.ttl > 0:
-            self.ttl -= 10
-            return self.message
-        else:
-            self.talking = False
         return ""
 
     def get_message(self, messages):
