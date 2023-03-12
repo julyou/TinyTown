@@ -7,7 +7,7 @@ HEIGHT = 500
 ADAM_STARTING_X = WIDTH * 0.5
 ADAM_STARTING_Y = HEIGHT * 0.5
 SCROLL = 5
-VELOCITY = 5
+VELOCITY = 1
 
 class GameEngine:
     def __init__(self, name, width, height):
@@ -32,43 +32,45 @@ class GameEngine:
         town.add_person("dave", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("rina", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
 
+        town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
+        mc = town.people["mc"]
+
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)
             showSprite(person.sprite)
+
+        
 
         while self.loop:
             if clock() > self.next_frame:
                 for person in town.people.values():
                     person.frame = (person.frame + 1) % 6
                     moveSprite(person.sprite, person.x, person.y)
-                    self.next_frame += 10
-                    person.update_pos()
+                    if person != mc:
+                        person.update_pos()
+                self.next_frame += 40
                 town.initiate_convo(clock(), self.messages)
 
                 if keyPressed("right"):
-                    for person in town.people.values():
-                        if person.x < WIDTH-20:
-                            person.x += VELOCITY
-                        changeSpriteImage(person.sprite, 0*6 + person.frame)
-                        person.last_position = 0
+                    if mc.x < WIDTH-20:
+                        mc.x += VELOCITY
+                    changeSpriteImage(mc.sprite, 0*6 + mc.frame)
+                    mc.last_position = 0
                 elif keyPressed("up"):
-                    for person in town.people.values():
-                        if person.y > 0:
-                            person.y -= VELOCITY
-                        changeSpriteImage(person.sprite, 1*6 + person.frame)
-                        person.last_position = 1
+                    if mc.y > 0:
+                        mc.y -= VELOCITY
+                    changeSpriteImage(mc.sprite, 1*6 + mc.frame)
+                    mc.last_position = 1
                 elif keyPressed("left"):
-                    for person in town.people.values():
-                        if person.x > 0:
-                            person.x -= VELOCITY
-                        changeSpriteImage(person.sprite, 2*6 + person.frame)
-                        person.last_position = 2
+                    if mc.x > 0:
+                        mc.x -= VELOCITY
+                    changeSpriteImage(mc.sprite, 2*6 + mc.frame)
+                    mc.last_position = 2
                 elif keyPressed("down"):
-                    for person in town.people.values():
-                        if person.y < HEIGHT-40:
-                            person.y += VELOCITY
-                        changeSpriteImage(person.sprite, 3*6 + person.frame)
-                        person.last_position = 3
+                    if mc.y < HEIGHT-40:
+                        mc.y += VELOCITY
+                    changeSpriteImage(mc.sprite, 3*6 + mc.frame)
+                    mc.last_position = 3
             tick(120)
 
         endWait()

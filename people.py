@@ -24,6 +24,7 @@ class People:
         if self.counter <= 0:
             if len(self.available_to_talk) >= 2:
                 num_talking = random.randint(0, int(len(self.available_to_talk) / 2))
+                print(num_talking)
                 for _ in range(num_talking):
                     p1 = self.available_to_talk[random.randint(0, len(self.available_to_talk)-1)]
                     self.available_to_talk.remove(p1)
