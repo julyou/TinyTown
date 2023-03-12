@@ -1,11 +1,10 @@
 import pygame
 from people import People
 from pygame_functions import *
+from mask_loader import MaskLoader
 
 WIDTH = 700
 HEIGHT = 500
-ADAM_STARTING_X = WIDTH * 0.5
-ADAM_STARTING_Y = HEIGHT * 0.5
 SCROLL = 3
 VELOCITY = 3
 
@@ -18,6 +17,7 @@ class GameEngine:
         self.messages = self.read_file("conversations.txt")
         setBackgroundImage("graphics/background.png")
         self.width, self.height = width, height
+        self.mask = MaskLoader("masks/background_mask.png")
 
         #speech = makeLabel("hi", 40, WIDTH*0.2, HEIGHT * 0.8, fontColour='white', font='TTF/dogicabold.ttf', background="clear")
         #showLabel(speech)

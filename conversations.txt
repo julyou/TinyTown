@@ -5,17 +5,9 @@ NAME told me: "I'm really hungry right now."
 You're really silly.
 My shoe has a hole in it.
 The weather is quite nice today.
-<<<<<<< HEAD
 Did you know Bob broke their arm last weekend?
 Sigh, it's so hard to make money.
-=======
 Did you know NAME broke their arm last weekend?
-<<<<<<< HEAD
 A gorilla was seen in the city today stomping on flowers!
 NAME is only paying $500 for a three-bedroom apartment in Vancouver!
-=======
 Sigh, NAME lost $2000 from my portfolio. 
-
->>>>>>> 6b1c087b18a34032d6af5e473da6e5a9842c8ad6
-
->>>>>>> 4503bf1246a2f2de853d6b770e680e4cf731002a
