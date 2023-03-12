@@ -7,7 +7,7 @@ HEIGHT = 500
 ADAM_STARTING_X = WIDTH * 0.5
 ADAM_STARTING_Y = HEIGHT * 0.5
 SCROLL = 5
-VELOCITY = 1
+VELOCITY = 3
 
 class GameEngine:
     def __init__(self, name, width, height):
@@ -18,20 +18,18 @@ class GameEngine:
         self.messages = self.read_file("conversations.txt")
         setBackgroundImage("graphics/junkyard2.png")
 
-        speech = makeLabel("hi", 40, 0, 0, fontColour='white', font='TTF/dogicabold.ttf', background="clear")
+        speech = makeLabel("hi", 40, WIDTH*0.2, HEIGHT * 0.8, fontColour='white', font='TTF/dogicabold.ttf', background="clear")
         showLabel(speech)
 
-        text_box = makeTextBox(WIDTH*0.2, HEIGHT * 0.8, WIDTH * 0.6)
-        textBoxInput(text_box)
-        showTextBox(text_box)
+        # text_box = makeTextBox(WIDTH*0.2, HEIGHT * 0.8, WIDTH * 0.6)
+        # textBoxInput(text_box)
+        # showTextBox(text_box)
 
     def read_file(self, path):
         f = open(path, "r")
         lines = f.readlines()
         f.close()
         return lines
-
-
 
     def run(self):
         town = People()
@@ -61,27 +59,32 @@ class GameEngine:
                 town.initiate_convo(clock(), self.messages)
 
                 if keyPressed("right"):
-                    scrollBackground(-10, 0)
                     if mc.x < WIDTH-20:
                         mc.x += VELOCITY
+                    if mc.x > WIDTH / 2:
+                        scrollBackground(-SCROLL, 0)
                     changeSpriteImage(mc.sprite, 0*6 + mc.frame)
                     mc.last_position = 0
                 elif keyPressed("up"):
-                    scrollBackground(0, 10)
                     if mc.y > 0:
                         mc.y -= VELOCITY
+                    if mc.y < HEIGHT / 2:
+                        scrollBackground(0, SCROLL)
+
                     changeSpriteImage(mc.sprite, 1*6 + mc.frame)
                     mc.last_position = 1
                 elif keyPressed("left"):
-                    scrollBackground(10, 0)
                     if mc.x > 0:
                         mc.x -= VELOCITY
+                    else:
+                        scrollBackground(SCROLL, 0)
                     changeSpriteImage(mc.sprite, 2*6 + mc.frame)
                     mc.last_position = 2
                 elif keyPressed("down"):
-                    scrollBackground(0, -10)
                     if mc.y < HEIGHT-40:
                         mc.y += VELOCITY
+                    else: 
+                        scrollBackground(0, -SCROLL)
                     changeSpriteImage(mc.sprite, 3*6 + mc.frame)
                     mc.last_position = 3
             tick(120)
