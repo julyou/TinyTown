@@ -18,6 +18,7 @@ class Person:
         res = key, val = random.choice(list(self.spawn_coordinates.items()))
         print(res)
         self.sprite = makeSprite(path, num_div)
+        self.speech = makeSprite("sprites/speech.png", 1)
         #self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
         self.x, self.y = width / 3, height / 2
         self.truex = self.x + 20
@@ -57,8 +58,8 @@ class Person:
         self.conversations = {}
 
     def update_pos(self, mask):
-        if self.target:
-            self.walk_to_target(mask, self.target)
+        # if self.target:
+        #     self.walk_to_target(mask, self.target)
         if self.counter > 0:
             self.counter -= 50
             if self.direction == 0:

@@ -126,8 +126,8 @@ class Cache:
             heapq.heappop(self.heap)
             heapq.heappush(self.heap, (event.score, event))
         
-mask = MaskLoader("masks/background_mask.png")
-print(astar(mask, (267,307), (766,410)))
+# mask = MaskLoader("masks/background_mask.png")
+# print(astar(mask, (267,307), (766,410)))
 
     
 
