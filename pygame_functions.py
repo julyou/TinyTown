@@ -402,7 +402,7 @@ def showSprite(sprite):
 
 
 def makeSprite(filename, frames=1, altDims = None):
-    thisSprite = newSprite(filename, frames, altDims)
+    thisSprite = newSprite(filename, frames, altDims, mc)
     return thisSprite
 
 

@@ -8,6 +8,8 @@ ADAM_STARTING_X = WIDTH * 0.5
 ADAM_STARTING_Y = HEIGHT * 0.5
 SCROLL = 3
 VELOCITY = 3
+BLACK = (0,0,0,255)
+WHITE = (255,255,255,255)
 
 class GameEngine:
     def __init__(self, name, width, height):
@@ -17,6 +19,7 @@ class GameEngine:
         self.loop = True
         self.messages = self.read_file("conversations.txt")
         setBackgroundImage("graphics/background.png")
+        mask = makeSprite("masks/background_transparent.png")
 
         #speech = makeLabel("hi", 40, WIDTH*0.2, HEIGHT * 0.8, fontColour='white', font='TTF/dogicabold.ttf', background="clear")
         #showLabel(speech)
@@ -41,6 +44,7 @@ class GameEngine:
 
         town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
         mc = town.people["mc"]
+        
 
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)
@@ -60,6 +64,7 @@ class GameEngine:
                     if mc.x < WIDTH - 20:
                         mc.x += VELOCITY
                     if mc.x >= WIDTH / 2:
+                        mc.x -= VELOCITY
                         scrollBackground(-SCROLL, 0)
                         for person in town.people.values():
                             if person != mc:
