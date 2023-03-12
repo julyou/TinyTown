@@ -28,7 +28,6 @@ class GameEngine:
         town.add_person("adam", "sprites/Adam_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("bob", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
-
         town.add_person("dave", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("rina", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
 
