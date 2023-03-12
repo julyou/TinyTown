@@ -6,7 +6,7 @@ WIDTH = 700
 HEIGHT = 500
 ADAM_STARTING_X = WIDTH * 0.5
 ADAM_STARTING_Y = HEIGHT * 0.5
-SCROLL = 10
+SCROLL = 3
 VELOCITY = 3
 
 class GameEngine:
@@ -17,6 +17,7 @@ class GameEngine:
         self.loop = True
         self.messages = self.read_file("conversations.txt")
         setBackgroundImage("graphics/background.png")
+        self.width, self.height = width, height
 
         #speech = makeLabel("hi", 40, WIDTH*0.2, HEIGHT * 0.8, fontColour='white', font='TTF/dogicabold.ttf', background="clear")
         #showLabel(speech)
@@ -33,13 +34,13 @@ class GameEngine:
 
     def run(self):
         town = People()
-        town.add_person("adam", "sprites/Adam_run_16x16.png", 24, WIDTH, HEIGHT)
-        town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
-        town.add_person("bob", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
-        town.add_person("dave", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
-        town.add_person("rina", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
+        town.add_person("adam", "sprites/Adam_run_16x16.png", 24, self.width, self.height)
+        town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
+        town.add_person("bob", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("dave", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("rina", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
 
-        town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
+        town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
         mc = town.people["mc"]
 
         for person in town.people.values():
@@ -101,5 +102,5 @@ class GameEngine:
         endWait()
 
 if __name__ == '__main__':
-    game = GameEngine("Acorn Hill", 700, 500)
+    game = GameEngine("Acorn Hill", WIDTH, HEIGHT)
     game.run()
