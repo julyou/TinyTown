@@ -18,6 +18,7 @@ class GameEngine:
         self.messages = self.read_file("conversations.txt")
         # setBackgroundImage("masks/background_mask.png")
         setBackgroundImage("graphics/background.png")
+        setWindowTitle(name)
 
         self.width, self.height = width, height
         self.mc_actualx, self.mc_actualy = 0, 0
@@ -46,13 +47,10 @@ class GameEngine:
 
         town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
         mc = town.people["mc"]
-<<<<<<< HEAD
-        mc.x = self.width / 2
+        mc.x = self.width / 3
         mc.y = self.height / 2
-=======
         mc.x, self.mc_actualx = self.width / 3, self.width / 3 + 20
-        mc.y, self.mc_actualy = self.height / 2, self.height / 2 + 70      
->>>>>>> ef2f2d49ffdd8ba19c23441f50c8083b22fd2b9a
+        mc.y, self.mc_actualy = self.height / 2, self.height / 2 + 70
 
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)
@@ -64,11 +62,9 @@ class GameEngine:
                     person.frame = (person.frame + 1) % 6
                     moveSprite(person.sprite, person.x, person.y)
                     if person != mc:
-                        person.update_pos()
+                        person.update_pos(self.mask)
                 self.next_frame += 40
                 town.initiate_convo(clock(), self.messages)
-                print((self.mc_actualx, self.mc_actualy))
-                print(self.mask.pix[self.mc_actualx + VELOCITY, self.mc_actualy])
                 if keyPressed("right"):
                     if self.mask.pix[self.mc_actualx + VELOCITY, self.mc_actualy] != (0, 0, 0, 255):                
                         mc.x += VELOCITY

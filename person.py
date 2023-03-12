@@ -2,7 +2,6 @@ from pygame_functions import *
 from utils import Cache, astar
 from event import Event
 from mask_loader import MaskLoader
-from people import People
 import random
 
 VELOCITY = 1
@@ -10,9 +9,10 @@ VELOCITY = 1
 class Person:
     def __init__(self, name, path, num_div, width, height):
         self.sprite = makeSprite(path, num_div)
-        self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
-        # self.x, self.y = random.randint(0, 1000), random.randint(0, 50)
-
+        #self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
+        self.x, self.y = width / 3, height / 2
+        self.truex = self.x + 20
+        self.truey = self.y + 70
         self.width, self.height = width, height
         # can be 0="right", 1="up", 2="left", 3="down"
         self.last_position = 0
@@ -30,6 +30,8 @@ class Person:
         self.happy = random.randint(0, 100)
         self.sad = random.randint(0, 100)
         self.talking = False
+        self.walking = False
+        self.target = None
 
         # time to live for message
         self.ttl = 0
@@ -45,32 +47,39 @@ class Person:
         #   - directed acyclic graph
         self.conversations = {}
 
-    def update_pos(self):
+    def update_pos(self, mask):
+        if self.target:
+            self.walk_to_target(mask, self.target)
         if self.counter > 0:
             self.counter -= 50
             if self.direction == 0:
-                if self.x < self.width-20:
+                if mask.pix[self.truex + VELOCITY, self.truey] != (0, 0, 0, 255):
                     self.x += VELOCITY
+                    self.truex += VELOCITY
                 changeSpriteImage(self.sprite, 0*6 + self.frame)
             elif self.direction == 1:
-                if self.y > 0:
+                if mask.pix[self.truex, self.truey - VELOCITY] != (0, 0, 0, 255):
                     self.y -= VELOCITY
+                    self.truey -= VELOCITY
                 changeSpriteImage(self.sprite, 1*6 + self.frame)
             elif self.direction == 2:
-                if self.x > 0:
+                if mask.pix[self.truex - VELOCITY, self.truey] != (0, 0, 0, 255):
                     self.x -= VELOCITY
+                    self.truex -= VELOCITY
                 changeSpriteImage(self.sprite, 2*6 + self.frame)
             elif self.direction == 3:
-                if self.y < self.height-40:
+                if mask.pix[self.truex, self.truey + VELOCITY] != (0, 0, 0, 255):
                     self.y += VELOCITY
+                    self.truey += VELOCITY
                 changeSpriteImage(self.sprite, 3*6 + self.frame)
         else:
             self.counter = random.randint(500, 1500)
             self.direction = random.randint(0, 4)
             changeSpriteImage(self.sprite, 0*6 + self.frame)
 
-    def walk_to_target(self, pix, target):
-        path = astar(pix, (self.x, self.y), (target.x, target.y))
+    def walk_to_target(self, mask, target):
+        path = astar(mask, (self.truex, self.truey), (target.truex, target.truey))
+        print(path)
         return path
 
     # returns empty string when time limit expires
@@ -105,11 +114,3 @@ class Person:
         # 50% chance to retrieve an old event from stm
         index = random.randint(0, min(self.cache.num_occupied-1, self.cache.size-1))
         return self.cache.heap[index][1].message
-
-
-mask = MaskLoader("masks/background_mask.png")
-
-town = People()
-town.add_person("adam", "sprites/Adam_run_16x16.png", 24, 700, 500)
-town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, 700, 500)
-print(town["adam"].walk_to_target(mask.pix, town["amelia"]))

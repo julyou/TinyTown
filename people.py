@@ -26,10 +26,12 @@ class People:
                 for _ in range(num_talking):
                     p1 = self.available_to_talk[random.randint(0, len(self.available_to_talk)-1)]
                     self.available_to_talk.remove(p1)
+                    p1.walking = True
                     p2 = self.available_to_talk[random.randint(0, len(self.available_to_talk)-1)]
                     while p2 == p1.prev_talked_to:
                         p2 = self.available_to_talk[random.randint(0, len(self.available_to_talk)-1)]
                     self.available_to_talk.remove(p2)
+                    p1.target = p2
                     p1.prev_talked_to = p2
                     p2.prev_talked_to = p1
                     p1.talk_to_target(p2, curr_time, messages)
@@ -44,4 +46,6 @@ class People:
                         person.ttl -= 100
                     else:
                         person.talking = False
+                        person.walking = False
+                        person.target = False
         self.counter -= 10

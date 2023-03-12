@@ -1,5 +1,6 @@
 import heapq
 from event import Event
+from mask_loader import MaskLoader
 
 # astar is modified from:
 # https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
@@ -19,8 +20,8 @@ class Node():
         return self.position == other.position
 
 
-def astar(maze, start, end):
-    """Returns a list of tuples as a path from the given start to the given destination"""
+def astar(mask, start, end):
+    """Returns a list of tuples as a path from the given start to the given end in the given maze"""
 
     # Create start and end node
     start_node = Node(None, start)
@@ -61,17 +62,17 @@ def astar(maze, start, end):
 
         # Generate children
         children = []
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0)]: # Adjacent squares
 
             # Get node position
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
             # Make sure within range
-            if node_position[0] > (len(maze) - 1) or node_position[0] < 0 or node_position[1] > (len(maze[len(maze)-1]) -1) or node_position[1] < 0:
+            if node_position[0] > mask.img.width-1 or node_position[0] < 0 or node_position[1] > mask.img.height-1 or node_position[1] < 0:
                 continue
 
             # Make sure walkable terrain
-            if maze[node_position[0]][node_position[1]] != 0:
+            if mask.pix[node_position[0], node_position[1]] == (0, 0, 0, 255):
                 continue
 
             # Create new node
@@ -125,6 +126,8 @@ class Cache:
             heapq.heappop(self.heap)
             heapq.heappush(self.heap, (event.score, event))
         
+mask = MaskLoader("masks/background_mask.png")
+print(astar(mask, (267,307), (766,410)))
 
     
 
