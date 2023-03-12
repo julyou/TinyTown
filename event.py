@@ -8,12 +8,12 @@ class Event:
             return self
         return other
 
-    def __init__(self, timestamp, payload, self_parent, other_parent):
+    def __init__(self, timestamp, payload, self_parent, other_parent, toxicity):
         self.timestamp = timestamp
         # score will eventually decay with time
-        self.score = self.get_raw_score(payload)
+        self.score = self.get_raw_score(payload, toxicity)
         # raw score of sentence (does not take time into account)
-        self.sent_score = self.get_raw_score(payload)
+        self.sent_score = self.score
         self.message = payload
         self.self_parent = self_parent
         self.other_parent = other_parent
@@ -24,5 +24,7 @@ class Event:
         return self.score
     
     # TODO
-    def get_raw_score(self, msg):
-        return random.randint(0, 100)
+    def get_raw_score(self, msg, toxicity):
+        if toxicity[msg] == "Benign":
+            return random.randint(0, 100)
+        return random.randint(0, 100) * -1

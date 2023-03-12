@@ -58,13 +58,6 @@ class Person:
         self.conversations = {}
 
     def update_pos(self, mask):
-<<<<<<< HEAD
-=======
-        #if self.target:
-        #    print((self.truex, self.truey))
-        #    print((self.target.truex, self.target.truey))
-        #    self.walk_to_target(mask, self.target)
->>>>>>> 26050ab2c02dfdc679d8262775a21de0bf088371
         if self.talking:
             path = self.walk_to_target(mask, self.target)
             if len(path) > 1:
@@ -112,7 +105,7 @@ class Person:
     # returns empty string when time limit expires
     #   - constructs an event and adds it to target's ltm and stm
     #   - also adds the message into the target's long term memory
-    def talk_to_target(self, target, time, messages):
+    def talk_to_target(self, target, time, messages, toxicity):
         if not self.talking:
             message = self.get_message(messages)
             self.talking = True
@@ -121,9 +114,11 @@ class Person:
             self.ttl = random.randint(300, 500)
 
             # event constructed with target as self-parent and self as other-parent
-            event = Event(time, message, target.name, self.name)
+            event = Event(time, message, target, self.name, toxicity)
             #print(self)
             # each event's id is its time of creation
+            score = event.score
+            target.motivation += score / 10
             target.conversations[time] = event
             target.cache.read(event, clock())
             print(message)
