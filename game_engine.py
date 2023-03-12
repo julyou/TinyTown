@@ -7,6 +7,8 @@ WIDTH = 700
 HEIGHT = 500
 SCROLL = 3
 VELOCITY = 3
+BLACK = (0,0,0,255)
+WHITE = (255,255,255,255)
 
 class GameEngine:
     def __init__(self, name, width, height):
@@ -41,7 +43,10 @@ class GameEngine:
         town.add_person("rina", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
 
         town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
+        mc.x = self.width / 2
+        mc.y = self.height / 2
         mc = town.people["mc"]
+        
 
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)
@@ -61,6 +66,7 @@ class GameEngine:
                     if mc.x < WIDTH - 20:
                         mc.x += VELOCITY
                     if mc.x >= WIDTH / 2:
+                        mc.x -= VELOCITY
                         scrollBackground(-SCROLL, 0)
                         for person in town.people.values():
                             if person != mc:
