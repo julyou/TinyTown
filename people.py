@@ -46,8 +46,9 @@ class People:
                     if person.ttl > 0:
                         person.ttl -= 100
                     else:
+                        print(person.target)
                         person.talking = False
                         person.walking = False
-                        person.target = False
+                        person.target = None
         self.counter -= 10
         return event

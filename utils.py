@@ -52,7 +52,7 @@ def astar(mask, start, end):
         closed_list.append(current_node)
 
         # Found the goal
-        if current_node == end_node:
+        if abs(current_node.position[0] - end_node.position[0]) < 5 and abs(current_node.position[1] - end_node.position[1]) < 5:
             path = []
             current = current_node
             while current is not None:
@@ -62,7 +62,7 @@ def astar(mask, start, end):
 
         # Generate children
         children = []
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0)]: # Adjacent squares
+        for new_position in [(0, -3), (0, 3), (-3, 0), (3, 0)]: # Adjacent squares
 
             # Get node position
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
@@ -126,8 +126,9 @@ class Cache:
             heapq.heappop(self.heap)
             heapq.heappush(self.heap, (event.score, event))
         
-# mask = MaskLoader("masks/background_mask.png")
-# print(astar(mask, (267,307), (766,410)))
+#mask = MaskLoader("masks/background_mask.png")
+#print((int(700/3), int(500/2)))
+#print(astar(mask, (int(700/3), int(500/2)), (1188,571)))
 
     
 
