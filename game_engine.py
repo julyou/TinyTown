@@ -16,7 +16,6 @@ class GameEngine:
         self.next_frame = clock()
         self.loop = True
         self.messages = self.read_file("conversations.txt")
-        # setBackgroundImage("masks/background_mask.png")
         setBackgroundImage("graphics/background.png")
 
         self.width, self.height = width, height
@@ -46,13 +45,8 @@ class GameEngine:
 
         town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
         mc = town.people["mc"]
-<<<<<<< HEAD
-        mc.x = self.width / 2
-        mc.y = self.height / 2
-=======
         mc.x, self.mc_actualx = self.width / 3, self.width / 3 + 20
         mc.y, self.mc_actualy = self.height / 2, self.height / 2 + 70      
->>>>>>> ef2f2d49ffdd8ba19c23441f50c8083b22fd2b9a
 
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)
@@ -77,9 +71,7 @@ class GameEngine:
                             mc.x -= VELOCITY
                             scrollBackground(-SCROLL, 0)
                             for person in town.people.values():
-                                if person != mc:
-                                    # if self.mask.pix[person.x + 1, person.y] == (0, 0, 0, 255):
-                                    #     person.x -= VELOCITY
+                                if person != mc:                                    
                                     person.x -= VELOCITY + SCROLL/2
                         changeSpriteImage(mc.sprite, 0*6 + mc.frame)
                         mc.last_position = 0

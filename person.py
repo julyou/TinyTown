@@ -2,7 +2,6 @@ from pygame_functions import *
 from utils import Cache, astar
 from event import Event
 from mask_loader import MaskLoader
-from people import People
 import random
 
 VELOCITY = 1
@@ -11,7 +10,7 @@ class Person:
     def __init__(self, name, path, num_div, width, height):
         self.sprite = makeSprite(path, num_div)
         self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
-        # self.x, self.y = random.randint(0, 1000), random.randint(0, 50)
+        self.actualx, self.actualy = self.x, self.y
 
         self.width, self.height = width, height
         # can be 0="right", 1="up", 2="left", 3="down"
@@ -45,22 +44,36 @@ class Person:
         #   - directed acyclic graph
         self.conversations = {}
 
+        self.mask = MaskLoader("masks/background_mask.png")
+
     def update_pos(self):
         if self.counter > 0:
             self.counter -= 50
             if self.direction == 0:
+                if self.mask.pix[self.actualx + VELOCITY, self.actualy] != (0, 0, 0, 255):                
+                    self.x += VELOCITY
+                    self.actualx += VELOCITY
                 if self.x < self.width-20:
                     self.x += VELOCITY
                 changeSpriteImage(self.sprite, 0*6 + self.frame)
             elif self.direction == 1:
+                if self.mask.pix[self.actualx, self.actualy - VELOCITY] != (0, 0, 0, 255):                
+                    self.y -= VELOCITY
+                    self.actualy -= VELOCITY
                 if self.y > 0:
                     self.y -= VELOCITY
                 changeSpriteImage(self.sprite, 1*6 + self.frame)
             elif self.direction == 2:
+                if self.mask.pix[self.actualx - VELOCITY, self.actualy] != (0, 0, 0, 255):                
+                    self.x -= VELOCITY
+                    self.actualx -= VELOCITY
                 if self.x > 0:
                     self.x -= VELOCITY
                 changeSpriteImage(self.sprite, 2*6 + self.frame)
             elif self.direction == 3:
+                if self.mask.pix[self.actualx, self.actualy + VELOCITY] != (0, 0, 0, 255):                
+                    self.actualy += VELOCITY
+                    self.y += VELOCITY
                 if self.y < self.height-40:
                     self.y += VELOCITY
                 changeSpriteImage(self.sprite, 3*6 + self.frame)
@@ -105,11 +118,3 @@ class Person:
         # 50% chance to retrieve an old event from stm
         index = random.randint(0, min(self.cache.num_occupied-1, self.cache.size-1))
         return self.cache.heap[index][1].message
-
-
-mask = MaskLoader("masks/background_mask.png")
-
-town = People()
-town.add_person("adam", "sprites/Adam_run_16x16.png", 24, 700, 500)
-town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, 700, 500)
-print(town["adam"].walk_to_target(mask.pix, town["amelia"]))
