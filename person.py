@@ -10,7 +10,7 @@ class Person:
     def __init__(self, name, path, num_div, width, height):
         self.sprite = makeSprite(path, num_div)
         #self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
-        self.x, self.y = width / 3, height / 2
+        self.x, self.y = int(width / 3), int(height / 2)
         self.truex = self.x + 20
         self.truey = self.y + 70
         self.width, self.height = width, height
@@ -48,8 +48,23 @@ class Person:
         self.conversations = {}
 
     def update_pos(self, mask):
-        if self.target:
-            self.walk_to_target(mask, self.target)
+        #if self.target:
+        #    print((self.truex, self.truey))
+        #    print((self.target.truex, self.target.truey))
+        #    self.walk_to_target(mask, self.target)
+        if self.talking:
+            path = self.walk_to_target(mask, self.target)
+            if len(path) > 1:
+                self.counter = 50
+                if path[1][0] - self.truex > 0:
+                    self.direction = 0
+                elif path[1][0] - self.truex < 0:
+                    self.direction = 2
+                elif path[1][1] - self.truey > 0:
+                    self.direction = 3
+                elif path[1][1] - self.truey < 0:
+                    self.direction = 1
+
         if self.counter > 0:
             self.counter -= 50
             if self.direction == 0:
@@ -57,7 +72,7 @@ class Person:
                     self.x += VELOCITY
                     self.truex += VELOCITY
                 changeSpriteImage(self.sprite, 0*6 + self.frame)
-            elif self.direction == 1:
+            elif self.direction == VELOCITY:
                 if mask.pix[self.truex, self.truey - VELOCITY] != (0, 0, 0, 255):
                     self.y -= VELOCITY
                     self.truey -= VELOCITY
@@ -79,7 +94,6 @@ class Person:
 
     def walk_to_target(self, mask, target):
         path = astar(mask, (self.truex, self.truey), (target.truex, target.truey))
-        print(path)
         return path
 
     # returns empty string when time limit expires
@@ -100,8 +114,8 @@ class Person:
             target.cache.read(event, clock())
             print(message)
             print(target.conversations)
-            return message
-        return ""
+            return event
+        return None
 
     def get_message(self, messages):
         randint = random.randint(0, 100)
