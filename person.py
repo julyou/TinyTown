@@ -58,11 +58,6 @@ class Person:
         self.conversations = {}
 
     def update_pos(self, mask):
-<<<<<<< HEAD
-        #if self.target:
-        #    print((self.truex, self.truey))
-        #    print((self.target.truex, self.target.truey))
-        #    self.walk_to_target(mask, self.target)
         if self.talking:
             path = self.walk_to_target(mask, self.target)
             if len(path) > 1:
@@ -76,10 +71,6 @@ class Person:
                 elif path[1][1] - self.truey < 0:
                     self.direction = 1
 
-=======
-        # if self.target:
-        #     self.walk_to_target(mask, self.target)
->>>>>>> 788d9fc96d6071525376090cf1d1db55f9502b80
         if self.counter > 0:
             self.counter -= 50
             if self.direction == 0:
