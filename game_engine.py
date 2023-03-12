@@ -1,5 +1,6 @@
 import pygame
 from people import People
+from backgroundImage import BackgroundImage
 from pygame_functions import *
 
 WIDTH = 700
@@ -12,17 +13,17 @@ VELOCITY = 5
 class GameEngine:
     def __init__(self, name, width, height):
         pygame.init()
+        
         screenSize(width, height)
         self.next_frame = clock()
         self.loop = True
-        self.messages = self.read_file("conversations.txt")
 
-    def read_file(self, path):
-        f = open(path, "r")
-        lines = f.readlines()
-        f.close()
-        return lines
+        setBackgroundImage("graphics/junkyard.png")
 
+        # background = BackgroundImage(WIDTH, HEIGHT)
+        # background.createBackground(screen)
+   
+   
     def run(self):
         town = People()
         town.add_person("adam", "sprites/Adam_run_16x16.png", 24, WIDTH, HEIGHT)
@@ -36,7 +37,7 @@ class GameEngine:
             moveSprite(person.sprite, person.x, person.y, True)
             showSprite(person.sprite)
 
-        while self.loop:
+        while self.loop:       
             if clock() > self.next_frame:
                 for person in town.people.values():
                     person.frame = (person.frame + 1) % 6
