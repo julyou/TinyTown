@@ -1,4 +1,7 @@
-# this code is modified from:
+import heapq
+from event import Event
+
+# astar is modified from:
 # https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
 
 class Node():
@@ -97,3 +100,32 @@ def astar(maze, start, end):
 
             # Add the child to the open list
             open_list.append(child)
+
+# cache is based on custom eviction policy which takes in account:
+#   - recency
+#   - abs(score)
+#   - each cache access requires an update to value
+#   - implemented using priority queue
+class Cache:
+    def __init__(self, size=5):
+        self.heap = []
+        self.entry_finder = {}
+        self.num_occupied = 0
+        self.size = size
+
+    def read(self, event, curr_time):
+        if self.num_occupied < self.size:
+            heapq.heappush(self.heap, (event.score, event))
+            self.num_occupied += 1
+        else:
+            for i in range(len(self.heap)):
+                score = self.heap[i][1].update_score(curr_time)
+                self.heap[i] = (score, self.heap[i][1])
+            heapq.heapify(self.heap)
+            heapq.heappop(self.heap)
+            heapq.heappush(self.heap, (event.score, event))
+
+        
+
+    
+

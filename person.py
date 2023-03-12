@@ -1,4 +1,6 @@
 from pygame_functions import *
+from utils import Cache
+from event import Event
 import random
 
 VELOCITY = 1
@@ -7,6 +9,7 @@ class Person:
     def __init__(self, name, path, num_div, width, height):
         self.sprite = makeSprite(path, num_div)
         self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
+        self.width, self.height = width, height
         # can be 0="right", 1="up", 2="left", 3="down"
         self.last_position = 0
         # the index of the current sprite
@@ -17,23 +20,43 @@ class Person:
         self.name = name
         # previously talked to
         self.prev_talked_to = None
-        # how much longer they have to talk
-        self.talking = 1000
+        
+        # point system
+        self.motivation = random.randint(0, 100)
+        self.happy = random.randint(0, 100)
+        self.sad = random.randint(0, 100)
+        self.talking = False
+        self.time_to_talk = 0
+        # current message being transmitted
+        self.message = ""
+        
+        # short term memory
+        self.cache = Cache()
+
+        # long term memory
+        #   - dictionary of events
+        #   - keeps track of up to N events
+        #   - directed acyclic graph
+        self.conversations = {}
 
     def update_pos(self):
         if self.counter > 0:
             self.counter -= 50
             if self.direction == 0:
-                self.x += VELOCITY
+                if self.x < self.width-20:
+                    self.x += VELOCITY
                 changeSpriteImage(self.sprite, 0*6 + self.frame)
             elif self.direction == 1:
-                self.y -= VELOCITY
+                if self.y > 0:
+                    self.y -= VELOCITY
                 changeSpriteImage(self.sprite, 1*6 + self.frame)
             elif self.direction == 2:
-                self.x -= VELOCITY
+                if self.x > 0:
+                    self.x -= VELOCITY
                 changeSpriteImage(self.sprite, 2*6 + self.frame)
             elif self.direction == 3:
-                self.y += VELOCITY
+                if self.y < self.height-40:
+                    self.y += VELOCITY
                 changeSpriteImage(self.sprite, 3*6 + self.frame)
         else:
             self.counter = random.randint(500, 1500)
@@ -41,4 +64,40 @@ class Person:
             changeSpriteImage(self.sprite, 0*6 + self.frame)
 
     def walk_to_target(self, target):
+        #TODO
         print("yay")
+
+    # returns empty string when time limit expires
+    #   - constructs an event and adds it to target's ltm and stm
+    #   - also adds the message into the target's long term memory
+    def talk_to_target(self, target, time):
+        if not self.talking:
+            message = self.get_message()
+            self.talking = True
+            self.message = message
+            self.time_to_talk = random.randint(750, 1500)
+
+            # event constructed with target as self-parent and self as other-parent
+            event = Event(time, message, target, self)
+            # each event's id is its time of creation
+            target.conversations[time] = event
+            target.cache.read()
+            return message
+        if self.time_to_talk > 0:
+            self.time_to_talk -= 10
+            return self.message
+        self.talking = False
+        return ""
+
+    def get_message(self, messages):
+        randint = random.randint(0, 100)
+
+        if not self.cache.heap or randint < 50:
+            index = random.randint(0, len(messages)-1)
+            # 50% chance to generate a new event, or generate if there is nothin
+            # stored in cache
+            return messages[index]
+        # 50% chance to retrieve an old event from stm
+        index = random.randint(0, self.cache.size-1)
+        return self.cache.heap[index][1].payload
+
