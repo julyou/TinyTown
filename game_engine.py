@@ -43,10 +43,9 @@ class GameEngine:
         town.add_person("rina", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
 
         town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
+        mc = town.people["mc"]
         mc.x = self.width / 2
         mc.y = self.height / 2
-        mc = town.people["mc"]
-        
 
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)

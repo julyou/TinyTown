@@ -15,7 +15,8 @@ class People:
         """
         person = Person(name, path, num_div, width, height)
         self.people[name] = person
-        self.available_to_talk.append(person)
+        if person.name != "mc":
+            self.available_to_talk.append(person)
     
     def initiate_convo(self, curr_time, messages):
         if self.counter <= 0:

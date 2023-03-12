@@ -1,6 +1,8 @@
 from pygame_functions import *
-from utils import Cache
+from utils import Cache, astar
 from event import Event
+from mask_loader import MaskLoader
+from people import People
 import random
 
 VELOCITY = 1
@@ -67,9 +69,9 @@ class Person:
             self.direction = random.randint(0, 4)
             changeSpriteImage(self.sprite, 0*6 + self.frame)
 
-    def walk_to_target(self, target):
-        #TODO
-        print("yay")
+    def walk_to_target(self, pix, target):
+        path = astar(pix, (self.x, self.y), (target.x, target.y))
+        return path
 
     # returns empty string when time limit expires
     #   - constructs an event and adds it to target's ltm and stm
@@ -104,3 +106,10 @@ class Person:
         index = random.randint(0, min(self.cache.num_occupied-1, self.cache.size-1))
         return self.cache.heap[index][1].message
 
+
+mask = MaskLoader("masks/background_mask.png")
+
+town = People()
+town.add_person("adam", "sprites/Adam_run_16x16.png", 24, 700, 500)
+town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, 700, 500)
+print(town["adam"].walk_to_target(mask.pix, town["amelia"]))
