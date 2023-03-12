@@ -8,9 +8,18 @@ VELOCITY = 1
 
 class Person:
     def __init__(self, name, path, num_div, width, height):
+        self.spawn_coordinates = {}
+        self.spawn_coordinates[2] = 73
+        self.spawn_coordinates[273] = 207
+        self.spawn_coordinates[750] = 398
+        self.spawn_coordinates[312] = 113
+        self.spawn_coordinates[1336] = 493
+        
+        res = key, val = random.choice(list(self.spawn_coordinates.items()))
+        print(res)
         self.sprite = makeSprite(path, num_div)
-        self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
-        self.actualx, self.actualy = self.x, self.y
+        self.x, self.y = key, val
+        self.actualx, self.actualy = self.x + 20, self.y + 70
 
         self.width, self.height = width, height
         # can be 0="right", 1="up", 2="left", 3="down"

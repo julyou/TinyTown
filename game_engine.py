@@ -42,6 +42,18 @@ class GameEngine:
         town.add_person("bob", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
         town.add_person("dave", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
         town.add_person("rina", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("alex", "sprites/Alex_run_16x16.png", 24, self.width, self.height)
+        town.add_person("jamie", "sprites/Adam_run_16x16.png", 24, self.width, self.height)
+        town.add_person("megan", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
+        town.add_person("sam", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("conny", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("jomari", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("kai", "sprites/Alex_run_16x16.png", 24, self.width, self.height)
+        town.add_person("marge", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
+        town.add_person("barb", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("aisha", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("noah", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        town.add_person("avery", "sprites/Alex_run_16x16.png", 24, self.width, self.height)
 
         town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
         mc = town.people["mc"]
@@ -60,9 +72,7 @@ class GameEngine:
                     if person != mc:
                         person.update_pos()
                 self.next_frame += 40
-                town.initiate_convo(clock(), self.messages)
-                print((self.mc_actualx, self.mc_actualy))
-                print(self.mask.pix[self.mc_actualx + VELOCITY, self.mc_actualy])
+                town.initiate_convo(clock(), self.messages)            
                 if keyPressed("right"):
                     if self.mask.pix[self.mc_actualx + VELOCITY, self.mc_actualy] != (0, 0, 0, 255):                
                         mc.x += VELOCITY
