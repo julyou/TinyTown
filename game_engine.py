@@ -1,6 +1,6 @@
 import pygame
 from people import People
-from backgroundImage import BackgroundImage
+# from backgroundImage import BackgroundImage
 from pygame_functions import *
 
 WIDTH = 700
@@ -13,15 +13,10 @@ VELOCITY = 5
 class GameEngine:
     def __init__(self, name, width, height):
         pygame.init()
-        
         screenSize(width, height)
         self.next_frame = clock()
         self.loop = True 
-
         setBackgroundImage("graphics/junkyard.png")
-
-        # background = BackgroundImage(WIDTH, HEIGHT)
-        # background.createBackground(screen)
    
    
     def run(self):
@@ -29,7 +24,6 @@ class GameEngine:
         town.add_person("adam", "sprites/Adam_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("bob", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
-
         town.add_person("dave", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("rina", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
 
