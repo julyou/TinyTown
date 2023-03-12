@@ -22,6 +22,9 @@ class GameEngine:
         town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, WIDTH, HEIGHT)
         town.add_person("bob", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
 
+        town.add_person("dave", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
+        town.add_person("rina", "sprites/Bob_run_16x16.png", 24, WIDTH, HEIGHT)
+
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)
             showSprite(person.sprite)
@@ -31,7 +34,7 @@ class GameEngine:
                 for person in town.people.values():
                     person.frame = (person.frame + 1) % 6
                     moveSprite(person.sprite, person.x, person.y)
-                    self.next_frame += 20
+                    self.next_frame += 10
                     person.update_pos()
                 town.initiate_convo()
 
