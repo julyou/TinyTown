@@ -16,7 +16,7 @@ class GameEngine:
         self.next_frame = clock()
         self.loop = True
         self.messages = self.read_file("conversations.txt")
-        setBackgroundImage("graphics/junkyard2.png")
+        setBackgroundImage("graphics/background.png")
 
         speech = makeLabel("hi", 40, WIDTH*0.2, HEIGHT * 0.8, fontColour='white', font='TTF/dogicabold.ttf', background="clear")
         showLabel(speech)
