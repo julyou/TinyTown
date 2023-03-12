@@ -101,17 +101,18 @@ class Person:
             self.talking = True
             target.talking = True
             self.message = message
-            self.ttl = random.randint(750, 1500)
+            self.ttl = random.randint(300, 500)
 
             # event constructed with target as self-parent and self as other-parent
-            event = Event(time, message, target, self)
+            event = Event(time, message, target.name, self.name)
+            #print(self)
             # each event's id is its time of creation
             target.conversations[time] = event
             target.cache.read(event, clock())
             print(message)
             print(target.conversations)
-            return message
-        return ""
+            return event
+        return None
 
     def get_message(self, messages):
         randint = random.randint(0, 100)

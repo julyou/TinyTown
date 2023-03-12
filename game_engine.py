@@ -25,7 +25,7 @@ class GameEngine:
 
     def read_file(self, path):
         f = open(path, "r")
-        lines = f.readlines()
+        lines = [line[:-1] for line in f]
         f.close()
         return lines
 
@@ -60,15 +60,12 @@ class GameEngine:
             showSprite(person.sprite)
         
         text_box = makeSprite("graphics/text.png", 1)
-        text = makeLabel("hi", 24, WIDTH * 0.3, HEIGHT * 0.7, "black", "TTF/dogicapixel.ttf", "clear")
-        transformSprite(text_box,0,0.3)
-        moveSprite(text_box, WIDTH/2, HEIGHT * 0.8, True)
-        showSprite(text_box) 
-        showLabel(text)  
- 
-
+        text = None
+        name_label = None
+        
         while self.loop:
             if clock() > self.next_frame:
+                events = []
                 for person in town.people.values():
                     person.frame = (person.frame + 1) % 6
                     moveSprite(person.sprite, person.x, person.y)
@@ -79,8 +76,12 @@ class GameEngine:
                         showSprite(person.speech)
                     else:
                         hideSprite(person.speech)
+                    
                 self.next_frame += 40
-                town.initiate_convo(clock(), self.messages)
+                event = town.initiate_convo(clock(), self.messages)
+                if event is not None:
+                    events.append((event.timestamp, event.message, event.other_parent))
+                
                 if keyPressed("right"):
                     if self.mask.pix[self.mc_actualx + VELOCITY, self.mc_actualy] != (0, 0, 0, 255):                
                         mc.x += VELOCITY
@@ -124,6 +125,20 @@ class GameEngine:
                                 moveSprite(person.sprite, person.x, person.y)
                         changeSpriteImage(mc.sprite, 3*6 + mc.frame)
                         mc.last_position = 3
+            
+            if events:
+                events.sort(reverse=True)
+                if text:
+                    hideLabel(text)
+                if name_label:
+                    hideLabel(name_label)
+                text = makeLabel(events[0][1], 24, WIDTH * 0.28, HEIGHT * 0.75, "black", "TTF/dogicapixel.ttf", "clear")
+                name_label = makeLabel(events[0][2] + " said...", 24, WIDTH * 0.28, HEIGHT * 0.7, "black", "TTF/dogicapixel.ttf", "clear")
+                transformSprite(text_box,0,0.3)
+                moveSprite(text_box, WIDTH/2, HEIGHT * 0.8, True)
+                showSprite(text_box) 
+                showLabel(text)
+                showLabel(name_label)
             tick(120)
         endWait()
 
