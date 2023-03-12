@@ -1,5 +1,6 @@
 from pygame_functions import *
 from utils import Cache
+from event import Event
 import random
 
 VELOCITY = 1
@@ -26,6 +27,8 @@ class Person:
         self.sad = random.randint(0, 100)
         self.talking = False
         self.time_to_talk = 0
+        # current message being transmitted
+        self.message = ""
         
         # short term memory
         self.cache = Cache()
@@ -34,8 +37,7 @@ class Person:
         #   - dictionary of events
         #   - keeps track of up to N events
         #   - directed acyclic graph
-        conversations = {}
-
+        self.conversations = {}
 
     def update_pos(self):
         if self.counter > 0:
@@ -65,18 +67,37 @@ class Person:
         #TODO
         print("yay")
 
-    def talk_to_target(self, target):
+    # returns empty string when time limit expires
+    #   - constructs an event and adds it to target's ltm and stm
+    #   - also adds the message into the target's long term memory
+    def talk_to_target(self, target, time):
         if not self.talking:
             message = self.get_message()
-        else:
             self.talking = True
+            self.message = message
+            self.time_to_talk = random.randint(750, 1500)
 
-    def get_message(self):
+            # event constructed with target as self-parent and self as other-parent
+            event = Event(time, message, target, self)
+            # each event's id is its time of creation
+            target.conversations[time] = event
+            target.cache.read()
+            return message
+        if self.time_to_talk > 0:
+            self.time_to_talk -= 10
+            return self.message
+        self.talking = False
+        return ""
+
+    def get_message(self, messages):
         randint = random.randint(0, 100)
-        if randint < 25:
-            # 25% chance to generate a new event
-            return "" # TODO
-        # 75% chance to retrieve an old event from stm
+
+        if not self.cache.heap or randint < 50:
+            index = random.randint(0, len(messages)-1)
+            # 50% chance to generate a new event, or generate if there is nothin
+            # stored in cache
+            return messages[index]
+        # 50% chance to retrieve an old event from stm
         index = random.randint(0, self.cache.size-1)
-        return self.cache.heap[index]
+        return self.cache.heap[index][1].payload
 
