@@ -9,6 +9,8 @@ class Person:
     def __init__(self, name, path, num_div, width, height):
         self.sprite = makeSprite(path, num_div)
         self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
+        # self.x, self.y = random.randint(0, 1000), random.randint(0, 50)
+
         self.width, self.height = width, height
         # can be 0="right", 1="up", 2="left", 3="down"
         self.last_position = 0
