@@ -1,4 +1,5 @@
 import math
+import random
 
 class Event:
     def __init__(self, timestamp, payload, self_parent, other_parent):
@@ -18,4 +19,4 @@ class Event:
     
     # TODO
     def get_raw_score(self, msg):
-        return 0
+        return random.randint(0, 100)

@@ -64,7 +64,7 @@ class GameEngine:
                         for person in town.people.values():
                             if person != mc:
                                 person.x -= SCROLL
-                                moveSprite(person.sprite, person.x, person.y)
+                                
                     changeSpriteImage(mc.sprite, 0*6 + mc.frame)
                     mc.last_position = 0
                 elif keyPressed("up"):
@@ -75,7 +75,6 @@ class GameEngine:
                         for person in town.people.values():
                             if person != mc:
                                 person.y += SCROLL
-                                moveSprite(person.sprite, person.x, person.y)
                     changeSpriteImage(mc.sprite, 1*6 + mc.frame)
                     mc.last_position = 1
                 elif keyPressed("left"):
@@ -86,7 +85,6 @@ class GameEngine:
                         for person in town.people.values():
                             if person != mc:
                                 person.x += SCROLL
-                                moveSprite(person.sprite, person.x, person.y)
                     changeSpriteImage(mc.sprite, 2*6 + mc.frame)
                     mc.last_position = 2
                 elif keyPressed("down"):
@@ -97,11 +95,9 @@ class GameEngine:
                         for person in town.people.values():
                             if person != mc:
                                 person.y -= SCROLL
-                                moveSprite(person.sprite, person.x, person.y)
                     changeSpriteImage(mc.sprite, 3*6 + mc.frame)
                     mc.last_position = 3
             tick(120)
-
         endWait()
 
 if __name__ == '__main__':

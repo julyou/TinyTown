@@ -38,4 +38,7 @@ class People:
                     print(p1.name)
                     print(p2.name)
             self.counter = 1000
+            for person in self.people.values():
+                if not person.talking and person not in self.available_to_talk:
+                    self.available_to_talk.append(person)
         self.counter -= 10
