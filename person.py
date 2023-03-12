@@ -58,6 +58,13 @@ class Person:
         self.conversations = {}
 
     def update_pos(self, mask):
+<<<<<<< HEAD
+=======
+        #if self.target:
+        #    print((self.truex, self.truey))
+        #    print((self.target.truex, self.target.truey))
+        #    self.walk_to_target(mask, self.target)
+>>>>>>> 26050ab2c02dfdc679d8262775a21de0bf088371
         if self.talking:
             path = self.walk_to_target(mask, self.target)
             if len(path) > 1:
@@ -111,10 +118,11 @@ class Person:
             self.talking = True
             target.talking = True
             self.message = message
-            self.ttl = random.randint(750, 1500)
+            self.ttl = random.randint(300, 500)
 
             # event constructed with target as self-parent and self as other-parent
-            event = Event(time, message, target, self)
+            event = Event(time, message, target.name, self.name)
+            #print(self)
             # each event's id is its time of creation
             target.conversations[time] = event
             target.cache.read(event, clock())
