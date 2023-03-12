@@ -40,21 +40,21 @@ class GameEngine:
         town = People()
         town.add_person("adam", "sprites/Adam_run_16x16.png", 24, self.width, self.height)
         town.add_person("amelia", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
-        town.add_person("bob", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
-        town.add_person("dave", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
-        town.add_person("rina", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        #town.add_person("bob", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        #town.add_person("dave", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+        #town.add_person("rina", "sprites/Bob_run_16x16.png", 24, self.width, self.height)
+
+        town.people["amelia"].x, town.people["amelia"].y = 534, 281
 
         town.add_person("mc", "sprites/Amelia_run_16x16.png", 24, self.width, self.height)
         mc = town.people["mc"]
-<<<<<<< HEAD
+
         mc.x = self.width / 3
         mc.y = self.height / 2
         mc.x, self.mc_actualx = self.width / 3, self.width / 3 + 20
         mc.y, self.mc_actualy = self.height / 2, self.height / 2 + 70
-=======
         mc.x, self.mc_actualx = self.width / 3, self.width / 3 + 20
-        mc.y, self.mc_actualy = self.height / 2, self.height / 2 + 70      
->>>>>>> acb3ca3319d933a5b5da7b143e714dd697575262
+        mc.y, self.mc_actualy = self.height / 2, self.height / 2 + 70
 
         for person in town.people.values():
             moveSprite(person.sprite, person.x, person.y, True)
