@@ -26,7 +26,9 @@ class Person:
         self.happy = random.randint(0, 100)
         self.sad = random.randint(0, 100)
         self.talking = False
-        self.time_to_talk = 0
+
+        # time to live for message
+        self.ttl = 0
         # current message being transmitted
         self.message = ""
         
@@ -75,7 +77,7 @@ class Person:
             message = self.get_message(messages)
             self.talking = True
             self.message = message
-            self.time_to_talk = random.randint(750, 1500)
+            self.ttl = random.randint(750, 1500)
 
             # event constructed with target as self-parent and self as other-parent
             event = Event(time, message, target, self)
@@ -84,8 +86,8 @@ class Person:
             target.cache.read(event, clock())
             print(message)
             return message
-        if self.time_to_talk > 0:
-            self.time_to_talk -= 10
+        if self.ttl > 0:
+            self.ttl -= 10
             return self.message
         self.talking = False
         return ""
