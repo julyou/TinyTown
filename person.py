@@ -91,7 +91,8 @@ class Person:
         if self.ttl > 0:
             self.ttl -= 10
             return self.message
-        self.talking = False
+        else:
+            self.talking = False
         return ""
 
     def get_message(self, messages):
@@ -103,6 +104,6 @@ class Person:
             # stored in cache
             return messages[index]
         # 50% chance to retrieve an old event from stm
-        index = random.randint(0, self.cache.size-1)
-        return self.cache.heap[index][1].payload
+        index = random.randint(0, min(self.cache.num_occupied-1, self.cache.size-1))
+        return self.cache.heap[index][1].message
 

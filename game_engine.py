@@ -104,7 +104,6 @@ class GameEngine:
                     changeSpriteImage(mc.sprite, 3*6 + mc.frame)
                     mc.last_position = 3
             tick(120)
-
         endWait()
 
 if __name__ == '__main__':
