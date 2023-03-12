@@ -8,7 +8,17 @@ VELOCITY = 1
 
 class Person:
     def __init__(self, name, path, num_div, width, height):
+        self.spawn_coordinates = {}
+        self.spawn_coordinates[2] = 73
+        self.spawn_coordinates[273] = 207
+        self.spawn_coordinates[750] = 398
+        self.spawn_coordinates[312] = 113
+        self.spawn_coordinates[1336] = 493
+        
+        res = key, val = random.choice(list(self.spawn_coordinates.items()))
+        print(res)
         self.sprite = makeSprite(path, num_div)
+        self.speech = makeSprite("sprites/speech.png", 1)
         #self.x, self.y = random.randint(0, width-20), random.randint(0, height-40)
         self.x, self.y = int(width / 3), int(height / 2)
         self.truex = self.x + 20
@@ -48,6 +58,7 @@ class Person:
         self.conversations = {}
 
     def update_pos(self, mask):
+<<<<<<< HEAD
         #if self.target:
         #    print((self.truex, self.truey))
         #    print((self.target.truex, self.target.truey))
@@ -65,6 +76,10 @@ class Person:
                 elif path[1][1] - self.truey < 0:
                     self.direction = 1
 
+=======
+        # if self.target:
+        #     self.walk_to_target(mask, self.target)
+>>>>>>> 788d9fc96d6071525376090cf1d1db55f9502b80
         if self.counter > 0:
             self.counter -= 50
             if self.direction == 0:
